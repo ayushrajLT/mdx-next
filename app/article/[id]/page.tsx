@@ -1,9 +1,10 @@
 // import Article from "@/components/Article";
 import Audio from "@/components/Audio";
+import HTMLAnchor from "@/components/HTMLAnchor";
 import { generate } from "@/utils";
 
 type Props = { params: { id: string } };
-const components = { Audio };
+const components = { Audio, a: HTMLAnchor };
 
 async function getData({ id }: Pick<Props["params"], "id">) {
 	const res = await fetch(`http://localhost:7777/article/${id}`, {

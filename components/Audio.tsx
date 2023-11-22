@@ -2,7 +2,7 @@ import React from "react";
 
 const Audio = (props: any) => {
 	return (
-		<audio controls>
+		<audio controls controlsList="nodownload noplaybackrate">
 			<source src={props.src} />
 		</audio>
 	);
