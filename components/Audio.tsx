@@ -8,10 +8,12 @@ type Props = {
 
 const Audio = ({ src, text }: Props) => {
 	const id = nanoid();
+	const playPauseBtnId = "playPauseBtn" + id;
 
 	const logic = () => {
 		const audio = document.getElementById(id) as HTMLAudioElement;
-		const playPauseBtn = document.getElementById("playPauseBtn");
+		const playPauseBtn = document.getElementById(playPauseBtnId);
+
 		const playIcon = `<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
 		<circle cx="12" cy="12.251" r="12" fill="#1E293B"/>
 		<path d="M9.99365 9.10821C9.77041 8.97593 9.48804 9.13682 9.48804 9.39631V15.6627C9.48804 15.9222 9.77041 16.0831 9.99365 15.9508L15.2809 12.8176C15.4998 12.6879 15.4998 12.3711 15.2809 12.2414L9.99365 9.10821Z" fill="white" stroke="white" stroke-width="0.837209" stroke-linecap="round" stroke-linejoin="round"/>
@@ -70,7 +72,7 @@ const Audio = ({ src, text }: Props) => {
 				}}
 			>
 				<span>{text}</span>
-				<button id="playPauseBtn">
+				<button id={playPauseBtnId} style={{ height: 32, width: 32 }}>
 					<svg
 						width="24"
 						height="25"
@@ -95,7 +97,7 @@ const Audio = ({ src, text }: Props) => {
 				dangerouslySetInnerHTML={{
 					__html: `
 						const audio = document.getElementById("${id}");
-						const playPauseBtn = document.getElementById("playPauseBtn");
+						const playPauseBtn = document.getElementById(${playPauseBtnId});
 				
 						const playIcon = <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<circle cx="12" cy="12.251" r="12" fill="#1E293B"/>

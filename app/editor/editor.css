@@ -1,0 +1,63 @@
+.editor h1 {
+	font-weight: 800;
+	font-size: 2.25em;
+	margin-bottom: 0.8888889em;
+	line-height: 1.1111111;
+}
+.editor h2 {
+	font-weight: 700;
+	font-size: 1.5em;
+	margin-bottom: 1em;
+	line-height: 1.3333333;
+}
+
+.editor h3 {
+	font-weight: 600;
+	font-size: 1.25em;
+	margin-bottom: 0.6em;
+	line-height: 1.6;
+}
+.editor h4 {
+	font-weight: 600;
+	margin-bottom: 0.5em;
+	line-height: 1.5;
+}
+.editor h5 {
+	font-size: inherit;
+	font-weight: inherit;
+}
+.editor p {
+	margin-top: 1.25em;
+	margin-bottom: 1.25em;
+}
+.editor strong {
+	font-weight: 700;
+	color: inherit;
+}
+.editor blockquote {
+	font-weight: 500;
+	font-style: italic;
+	border-left-width: 0.25rem;
+	quotes: "x81C" "x81D" "x818" "x819";
+	margin-top: 1.6em;
+	margin-bottom: 1.6em;
+	padding-left: 1em;
+}
+
+.editor ul {
+	list-style-type: disc;
+	margin-bottom: 1.25em;
+	padding-left: 1.625em;
+}
+.editor ol {
+	list-style-type: number;
+	margin-bottom: 1.25em;
+	padding-left: 1.625em;
+}
+.editor li {
+	margin: 0.5rem 0;
+}
+.editor image {
+	width: 100%;
+	margin: 0 !important;
+}

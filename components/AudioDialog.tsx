@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { ButtonWithTooltip } from "@mdxeditor/editor";
@@ -19,9 +19,7 @@ const AudioDialog = ({
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	onSave: (data: Record<string, string>) => void;
 }) => {
-	const { handleSubmit, register, reset } = useForm<Form>({
-		defaultValues: {},
-	});
+	const { handleSubmit, register, reset } = useForm<Form>();
 
 	const [loading, setLoading] = useState(false);
 
@@ -51,15 +49,23 @@ const AudioDialog = ({
 	const onSubmit = handleSubmit(async (data) => {
 		if (data.url) {
 			onSave(data);
-			reset({});
+			setOpen(false);
 		}
 		if (value) {
 			await uploadFile(value)
 				.then((url) => onSave({ ...data, url }))
-				.then(() => setValue(null))
-				.then(() => reset({}));
+				.then(() => {
+					setValue(null);
+					setOpen(false);
+				});
 		}
 	});
+
+	useEffect(() => {
+		return () => {
+			reset();
+		};
+	}, [reset]);
 
 	return (
 		<Dialog.Root open={open} onOpenChange={setOpen}>
@@ -84,11 +90,11 @@ const AudioDialog = ({
 				</ButtonWithTooltip>
 			</Dialog.Trigger>
 			<Dialog.Portal>
-				<Dialog.Overlay className="bg-blackA6 data-[state=open]:animate-overlayShow fixed inset-0" />
+				<Dialog.Overlay className="bg-white bg-opacity-70 data-[state=open]:animate-overlayShow fixed inset-0" />
 				<Dialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-2xl bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/20%)_0px_10px_20px_-15px] focus:outline-none">
 					<form onSubmit={onSubmit}>
-						<fieldset className="mb-[15px] flex flex-col gap-5">
-							<label className="" htmlFor="audioFile">
+						<fieldset className="mb-7 flex flex-col gap-2">
+							<label className="font-bold" htmlFor="audioFile">
 								Upload an audio from your device:
 							</label>
 							<input
@@ -100,25 +106,25 @@ const AudioDialog = ({
 								}
 							/>
 						</fieldset>
-						<fieldset className="mb-[15px] flex flex-col gap-5">
-							<label className="" htmlFor="audioFile">
-								Or add an audio from an URL:
+						<fieldset className="mb-7 flex flex-col gap-2">
+							<label className="font-bold" htmlFor="audioFile">
+								Or add an audio from a URL:
 							</label>
 							<input
 								className="border border-black p-2 rounded-lg"
 								disabled={loading}
-								{...register("url")}
+								{...register("url", { required: !value })}
 							/>
 						</fieldset>
-						<fieldset className="mb-[15px] flex flex-col gap-5">
-							<label className="" htmlFor="audioFile">
-								Text
+						<fieldset className="mb-7 flex flex-col gap-2">
+							<label className="font-bold" htmlFor="audioFile">
+								Text*
 							</label>
 							<input
 								required
 								className="border border-black p-2 rounded-lg"
 								disabled={loading}
-								{...register("text")}
+								{...register("text", { required: true })}
 							/>
 						</fieldset>
 						<div className="mt-[25px] flex justify-end">

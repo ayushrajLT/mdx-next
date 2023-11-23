@@ -30,12 +30,11 @@ import {
 } from "@mdxeditor/editor";
 import { useState } from "react";
 import MDXComponent from "@/components/MDXComponent";
-
+import "./editor.css";
 const jsxComponentDescriptors = [
 	{
 		name: "Audio",
 		kind: "block",
-		props: [{ src: "audio.mp3", type: "string" }],
 		hasChildren: true,
 		Editor: (s: any) => (
 			<Audio
@@ -129,7 +128,7 @@ function Page() {
 		<div className="grid min-h-screen gap-2 divide-y-4 md:divide-x-2 md:grid-cols-2">
 			<MDXEditor
 				markdown={value}
-				contentEditableClassName="prose editor"
+				contentEditableClassName="editor"
 				onChange={(e) => setValue(e)}
 				autoFocus
 				placeholder="Write here"
