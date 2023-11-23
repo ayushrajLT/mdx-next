@@ -11,16 +11,13 @@ type Form = {
 };
 
 const AudioDialog = ({
-	open,
-	setOpen,
 	onSave,
 }: {
-	open: boolean;
-	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	onSave: (data: Record<string, string>) => void;
 }) => {
 	const { handleSubmit, register, reset } = useForm<Form>();
 
+	const [open, setOpen] = useState(false);
 	const [loading, setLoading] = useState(false);
 
 	const uploadFile = async (file: File) => {

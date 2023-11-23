@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
 	title: "Suraasa Editor",
-	description: "A Editor to write beautiful articles",
+	description: "A Rich Text Editor to craft beautiful articles at Suraasa",
 };
 
 export default function RootLayout({
