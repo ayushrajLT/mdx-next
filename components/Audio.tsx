@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import React, { useEffect } from "react";
 
 type Props = {
@@ -6,7 +7,7 @@ type Props = {
 };
 
 const Audio = ({ src, text }: Props) => {
-	const id = "audioPlayer-1";
+	const id = nanoid();
 
 	const logic = () => {
 		const audio = document.getElementById(id) as HTMLAudioElement;
