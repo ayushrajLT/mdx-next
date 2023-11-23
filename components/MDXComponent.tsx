@@ -1,6 +1,27 @@
 import React from "react";
 
+enum HTMLTags {
+	H1 = "h1",
+	H2 = "h2",
+	H3 = "h3",
+	H4 = "h4",
+	H5 = "h5",
+	H6 = "h6",
+	STRONG = "strong",
+	BLOCKQUOTE = "blockquote",
+	TABLE = "table",
+	TBODY = "tbody",
+	TH = "th",
+	TR = "tr",
+	TD = "td",
+	P = "p",
+	UL = "ul",
+	OL = "ol",
+	LI = "li",
+}
+
 type Props = {
+	style?: React.CSSProperties;
 	Component:
 		| "h1"
 		| "h2"
@@ -9,12 +30,18 @@ type Props = {
 		| "h5"
 		| "h6"
 		| "strong"
+		| "blockquote"
 		| "table"
 		| "tbody"
 		| "th"
 		| "tr"
 		| "td"
-		| "p";
+		| "p"
+		| "ul"
+		| "ol"
+		| "li"
+		| "img"
+		| "thead";
 };
 
 const color = {
@@ -77,6 +104,19 @@ function getStyle(element: Props["Component"]): React.CSSProperties {
 				color: "inherit",
 			};
 		}
+		case "blockquote": {
+			return {
+				fontWeight: 500,
+				fontStyle: "italic",
+				color: "var(--tw-prose-quotes)",
+				borderLeftWidth: "0.25rem",
+				borderLeftColor: "var(--tw-prose-quote-borders)",
+				quotes: `"x81C""x81D""x818""x819"`,
+				marginTop: "1.6em",
+				marginBottom: "1.6em",
+				paddingLeft: "1em",
+			};
+		}
 		case "table": {
 			return {
 				width: "100%",
@@ -84,8 +124,17 @@ function getStyle(element: Props["Component"]): React.CSSProperties {
 				marginBottom: "1rem",
 				padding: 0,
 				borderCollapse: "collapse",
+				// display: "block",
+				overflowX: "auto",
+				whiteSpace: "nowrap",
 			};
 		}
+		// case "tbody":
+		// case "thead": {
+		// 	return {
+		// 		width: "100%",
+		// 	};
+		// }
 		case "tr": {
 			return {
 				borderColor: "black",
@@ -114,6 +163,30 @@ function getStyle(element: Props["Component"]): React.CSSProperties {
 				padding: "6px 13px",
 			};
 		}
+		case "ul": {
+			return {
+				listStyleType: "disc",
+				marginBottom: "1.25em",
+				paddingLeft: "1.625em",
+			};
+		}
+		case "ol": {
+			return {
+				listStyleType: "number",
+				marginBottom: "1.25em",
+				paddingLeft: "1.625em",
+			};
+		}
+		case "li": {
+			return {
+				margin: "0.5rem 0",
+			};
+		}
+		case "img": {
+			return {
+				width: "100%",
+			};
+		}
 		default:
 			return {
 				fontSize: "inherit",
@@ -123,7 +196,9 @@ function getStyle(element: Props["Component"]): React.CSSProperties {
 }
 
 function MDXComponent<T>({ Component, ...props }: Props & T) {
-	return <Component {...props} style={getStyle(Component)} />;
+	return (
+		<Component {...props} style={{ ...getStyle(Component), ...props.style }} />
+	);
 }
 
 export default MDXComponent;

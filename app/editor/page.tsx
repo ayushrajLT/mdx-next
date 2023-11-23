@@ -29,7 +29,7 @@ import {
 	toolbarPlugin,
 } from "@mdxeditor/editor";
 import { useState } from "react";
-import Typography from "@/components/MDXComponent";
+import MDXComponent from "@/components/MDXComponent";
 
 const jsxComponentDescriptors = [
 	{
@@ -37,84 +37,54 @@ const jsxComponentDescriptors = [
 		kind: "block",
 		props: [{ src: "audio.mp3", type: "string" }],
 		hasChildren: true,
-		Editor: (s: any) => <Audio src={s.mdastNode.attributes[0].value} />,
+		Editor: (s: any) => (
+			<Audio
+				src={s.mdastNode.attributes[0].value}
+				text={s.mdastNode.attributes[1].value}
+			/>
+		),
 	},
 ];
 
 const components: MDXComponents = {
 	Audio,
 	a: HTMLAnchor,
-	p: (params) => <Typography Component="p" {...params} />,
-	h1: (params) => <Typography Component="h1" {...params} />,
-	h2: (params) => <Typography Component="h2" {...params} />,
-	h3: (params) => <Typography Component="h3" {...params} />,
-	h4: (params) => <Typography Component="h4" {...params} />,
-	h5: (params) => <Typography Component="h5" {...params} />,
-	h6: (params) => <Typography Component="h6" {...params} />,
-	strong: (params) => <Typography Component="strong" {...params} />,
-	table: (params) => <Typography Component="table" {...params} />,
-	th: (params) => <Typography Component="th" {...params} />,
-	td: (params) => <Typography Component="td" {...params} />,
-	tr: (params) => <Typography Component="tr" {...params} />,
+	p: (params) => <MDXComponent Component="p" {...params} />,
+	h1: (params) => <MDXComponent Component="h1" {...params} />,
+	h2: (params) => <MDXComponent Component="h2" {...params} />,
+	h3: (params) => <MDXComponent Component="h3" {...params} />,
+	h4: (params) => <MDXComponent Component="h4" {...params} />,
+	h5: (params) => <MDXComponent Component="h5" {...params} />,
+	h6: (params) => <MDXComponent Component="h6" {...params} />,
+	strong: (params) => <MDXComponent Component="strong" {...params} />,
+	blockquote: (params) => <MDXComponent Component="blockquote" {...params} />,
+	// table
+	table: (params) => <MDXComponent Component="table" {...params} />,
+	th: (params) => <MDXComponent Component="th" {...params} />,
+	td: (params) => <MDXComponent Component="td" {...params} />,
+	tr: (params) => <MDXComponent Component="tr" {...params} />,
+	// list
+	ul: (params) => <MDXComponent Component="ul" {...params} />,
+	li: (params) => <MDXComponent Component="li" {...params} />,
+	ol: (params) => <MDXComponent Component="ol" {...params} />,
 };
 
 const InsertAudio = () => {
 	const insertJsx = jsxPluginHooks.usePublisher("insertJsx");
 	const [show, setShow] = useState(false);
-	const [value, setValue] = useState<File | null>(null);
-	const [uploadingLoading, setUploadingLoading] = useState(false);
-
-	const uploadFile = (file: File) => {
-		setUploadingLoading(true);
-		const formData = new FormData();
-		formData.append("file", file);
-
-		return fetch("http://localhost:7777/upload", {
-			method: "POST",
-			body: formData,
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				// Handle the response data here
-				console.log("Uploaded URL:", data.url);
-				return data.url;
-			})
-			.catch((error) => {
-				console.error("Error uploading:", error);
-			})
-			.finally(() => setUploadingLoading(false));
-	};
 
 	return (
 		<>
 			<AudioDialog
 				open={show}
 				setOpen={setShow}
-				value={value}
-				setValue={setValue}
-				loading={uploadingLoading}
-				onSave={(url) => {
-					if (url) {
-						insertJsx({
-							name: "Audio",
-							kind: "text",
-							props: { src: url },
-						});
-						return setShow(false);
-					}
-					if (value) {
-						uploadFile(value).then((src) => {
-							if (src) {
-								insertJsx({
-									name: "Audio",
-									kind: "text",
-									props: { src },
-								});
-							}
-							return setShow(false);
-						});
-					}
-				}}
+				onSave={(data) =>
+					insertJsx({
+						name: "Audio",
+						kind: "text",
+						props: data,
+					})
+				}
 			/>
 		</>
 	);
@@ -199,7 +169,11 @@ function Page() {
 			<div>
 				<h2 className="mt-1 mb-4 text-center text-blue-500">Preview</h2>
 				<div className="w-full pl-4 markdown" id="preview">
+					{/* <html> */}
+					{/* <body> */}
 					<MDXContent components={components} />
+					{/* </body> */}
+					{/* </html> */}
 				</div>
 			</div>
 		</div>
