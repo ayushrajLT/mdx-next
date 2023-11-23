@@ -166,7 +166,7 @@ function Page() {
 				]}
 			/>
 			<div>
-				<h2 className="mt-1 mb-4 text-center text-blue-500">Preview</h2>
+				<h2 className="mt-4 mb-4 text-center text-blue-500">Preview</h2>
 				<div className="w-full pl-4 markdown" id="preview">
 					{/* <html> */}
 					{/* <body> */}
