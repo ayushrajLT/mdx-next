@@ -1,6 +1,11 @@
 "use client";
 import "@mdxeditor/editor/style.css";
-
+import { MDXComponents } from "mdx/types";
+import Audio from "@/components/Audio";
+import AudioDialog from "@/components/AudioDialog";
+import HTMLAnchor from "@/components/HTMLAnchor";
+import useLocalStorage from "@/hooks/useLocalStorage";
+import { generate } from "@/utils";
 import {
 	BlockTypeSelect,
 	BoldItalicUnderlineToggles,
@@ -11,7 +16,6 @@ import {
 	ListsToggle,
 	MDXEditor,
 	UndoRedo,
-	diffSourcePluginHooks,
 	headingsPlugin,
 	imagePlugin,
 	jsxPlugin,
@@ -23,15 +27,9 @@ import {
 	quotePlugin,
 	tablePlugin,
 	toolbarPlugin,
-	corePluginHooks,
-	imagePluginHooks,
 } from "@mdxeditor/editor";
 import { useState } from "react";
-import Audio from "@/components/Audio";
-import AudioDialog from "@/components/AudioDialog";
-import { generate } from "@/utils";
-import HTMLAnchor from "@/components/HTMLAnchor";
-import useLocalStorage from "@/hooks/useLocalStorage";
+import Typography from "@/components/MDXComponent";
 
 const jsxComponentDescriptors = [
 	{
@@ -42,6 +40,23 @@ const jsxComponentDescriptors = [
 		Editor: (s: any) => <Audio src={s.mdastNode.attributes[0].value} />,
 	},
 ];
+
+const components: MDXComponents = {
+	Audio,
+	a: HTMLAnchor,
+	p: (params) => <Typography Component="p" {...params} />,
+	h1: (params) => <Typography Component="h1" {...params} />,
+	h2: (params) => <Typography Component="h2" {...params} />,
+	h3: (params) => <Typography Component="h3" {...params} />,
+	h4: (params) => <Typography Component="h4" {...params} />,
+	h5: (params) => <Typography Component="h5" {...params} />,
+	h6: (params) => <Typography Component="h6" {...params} />,
+	strong: (params) => <Typography Component="strong" {...params} />,
+	table: (params) => <Typography Component="table" {...params} />,
+	th: (params) => <Typography Component="th" {...params} />,
+	td: (params) => <Typography Component="td" {...params} />,
+	tr: (params) => <Typography Component="tr" {...params} />,
+};
 
 const InsertAudio = () => {
 	const insertJsx = jsxPluginHooks.usePublisher("insertJsx");
@@ -78,19 +93,28 @@ const InsertAudio = () => {
 				value={value}
 				setValue={setValue}
 				loading={uploadingLoading}
-				onSave={() =>
-					value &&
-					uploadFile(value).then((src) => {
-						if (src) {
-							insertJsx({
-								name: "Audio",
-								kind: "text",
-								props: { src },
-							});
-						}
-						setShow(false);
-					})
-				}
+				onSave={(url) => {
+					if (url) {
+						insertJsx({
+							name: "Audio",
+							kind: "text",
+							props: { src: url },
+						});
+						return setShow(false);
+					}
+					if (value) {
+						uploadFile(value).then((src) => {
+							if (src) {
+								insertJsx({
+									name: "Audio",
+									kind: "text",
+									props: { src },
+								});
+							}
+							return setShow(false);
+						});
+					}
+				}}
 			/>
 		</>
 	);
@@ -111,7 +135,7 @@ function Page() {
 	};
 	const [uploadingLoading, setUploadingLoading] = useState(false);
 
-	const uploadFile = (file: File) => {
+	const uploadFile = async (file: File) => {
 		const formData = new FormData();
 		formData.append("file", file);
 		setUploadingLoading(true);
@@ -174,8 +198,8 @@ function Page() {
 			/>
 			<div>
 				<h2 className="mt-1 mb-4 text-center text-blue-500">Preview</h2>
-				<div className="w-full pl-4 prose markdown" id="preview">
-					<MDXContent components={{ Audio, a: HTMLAnchor }} />
+				<div className="w-full pl-4 markdown" id="preview">
+					<MDXContent components={components} />
 				</div>
 			</div>
 		</div>

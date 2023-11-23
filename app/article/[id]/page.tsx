@@ -1,10 +1,23 @@
 // import Article from "@/components/Article";
 import Audio from "@/components/Audio";
 import HTMLAnchor from "@/components/HTMLAnchor";
+import MDXComponent from "@/components/MDXComponent";
 import { generate } from "@/utils";
+import { MDXComponents } from "mdx/types";
 
 type Props = { params: { id: string } };
-const components = { Audio, a: HTMLAnchor };
+const components: MDXComponents = {
+	Audio,
+	a: HTMLAnchor,
+	h1: (...params) => <MDXComponent Component="h1" {...params} />,
+	h2: (...params) => <MDXComponent Component="h2" {...params} />,
+	h3: (...params) => <MDXComponent Component="h3" {...params} />,
+	h4: (...params) => <MDXComponent Component="h4" {...params} />,
+	h5: (...params) => <MDXComponent Component="h5" {...params} />,
+	h6: (...params) => <MDXComponent Component="h6" {...params} />,
+	strong: (...params) => <MDXComponent Component="strong" {...params} />,
+	table: (...params) => <MDXComponent Component="table" {...params} />,
+};
 
 async function getData({ id }: Pick<Props["params"], "id">) {
 	const res = await fetch(`http://localhost:7777/article/${id}`, {

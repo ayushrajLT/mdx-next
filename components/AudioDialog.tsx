@@ -17,7 +17,7 @@ const AudioDialog = ({
 	value: File | null;
 	setValue: React.Dispatch<React.SetStateAction<File | null>>;
 	loading: boolean;
-	onSave: () => void;
+	onSave: (url?: string) => void;
 }) => (
 	<Dialog.Root open={open} onOpenChange={setOpen}>
 		<Dialog.Trigger asChild>
@@ -57,13 +57,25 @@ const AudioDialog = ({
 							}
 						/>
 					</fieldset>
+					<fieldset className="mb-[15px] flex flex-col gap-5">
+						<label className="" htmlFor="audioFile">
+							Or add an audio from an URL:
+						</label>
+						<input
+							className="border border-black p-2 rounded-lg"
+							disabled={loading}
+							onChange={(e) =>
+								setValue(e.target.files ? e.target.files[0] : null)
+							}
+						/>
+					</fieldset>
 					<div className="mt-[25px] flex justify-end">
 						<div className="flex gap-4">
 							<button
 								type="submit"
 								title="Save"
 								aria-label="Save"
-								onClick={onSave}
+								onClick={() => onSave()}
 								disabled={loading}
 								className="px-3 py-1.5 text-white bg-blue-500 rounded-lg"
 								// className={classNames(styles.primaryButton)}
