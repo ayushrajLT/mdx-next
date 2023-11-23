@@ -86,7 +86,7 @@ const InsertAudio = () => {
 };
 
 function Page() {
-  const { value, setValue } = useLocalStorage(
+  const { value, debouncedSetValue: setValue } = useLocalStorage(
     "mdx",
     `# Craft your article here
 ## Use the toolbar above for formatting`
@@ -99,8 +99,9 @@ function Page() {
     setTimeout(() => {
       window.alert("Article has been to your clipboard!");
     }, 100);
-		console.log(article)
+    console.log(article);
   };
+
   const [uploadingLoading, setUploadingLoading] = useState(false);
 
   const uploadFile = async (file: File) => {
@@ -141,7 +142,12 @@ function Page() {
           markdownShortcutPlugin(),
           tablePlugin(),
           imagePlugin({
-            // imageUploadHandler: uploadFile,
+            imageUploadHandler: async () => {
+              window.alert(
+                "Uploading images is not supported right now. Please upload them somewhere and paste the link below"
+              );
+              return "";
+            },
           }),
           linkPlugin(),
           linkDialogPlugin(),

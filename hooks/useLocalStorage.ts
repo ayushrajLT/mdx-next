@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import debounce from "lodash/debounce";
 
 const isEmpty = (value: string | null | undefined) =>
   value === null || value === undefined || value === '""' || value === "''" || value === "";
@@ -27,7 +28,11 @@ function useLocalStorage(key: string, defaultValue: string) {
     localStorage.setItem(key, value);
   }, [value, key]);
 
-  return {value, setValue};
+  const debouncedSetValue = debounce((value: string) => {
+    setValue(value)
+  }, 1000);
+
+  return {value, setValue, debouncedSetValue};
 }
 
 export default useLocalStorage;
