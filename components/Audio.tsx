@@ -1,5 +1,4 @@
-import { nanoid } from "nanoid";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useId, useRef, useState } from "react";
 
 type Props = {
 	src: string;
@@ -7,17 +6,10 @@ type Props = {
 };
 
 const Audio = ({ src, text }: Props) => {
-	const [id, setId] = useState("");
-
-	useEffect(() => {
-		if (!id) {
-			setId(nanoid());
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
+	const id = useId();
 	const playPauseBtnId = "playPauseBtnContainer" + id;
 
+	console.log({ id, playPauseBtnId });
 	const logic = () => {
 		const audio = document.getElementById(id) as HTMLAudioElement;
 		const playPauseBtn = document.getElementById(playPauseBtnId);
