@@ -1,0 +1,106 @@
+@define-mixin clear-form-element {
+	border: 0;
+	background-color: transparent;
+	font-size: inherit;
+	appearance: none;
+	all: unset;
+	box-sizing: border-box;
+	cursor: default;
+}
+
+.dialogOverlay {
+	position: fixed;
+	inset: 0;
+	animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+	background-color: hsl(206, 30%, 98.8%);
+	z-index: 51;
+	opacity: 0.5;
+}
+
+.dialogContent,
+.largeDialogContent {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+	z-index: 52;
+	display: flex;
+	align-items: center;
+	gap: 0.125rem;
+	border-radius: 0.375rem;
+	filter: drop-shadow(0 2px 2px rgb(0 0 0 / 0.2));
+	border: 1px solid var(--slate1);
+	background-color: white;
+	padding: 0.25rem 0.5rem;
+	font-size: 0.875rem;
+	min-width: 340px;
+}
+
+.dialogContent:focus,
+.largeDialogContent:focus {
+	outline: none;
+}
+
+@keyframes overlayShow {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 0.5;
+	}
+}
+
+@keyframes contentShow {
+	from {
+		opacity: 0;
+		transform: translate(-50%, -48%) scale(0.96);
+	}
+	to {
+		opacity: 1;
+		transform: translate(-50%, -50%) scale(1);
+	}
+}
+
+.formField {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+.textInput {
+	all: unset;
+	border-radius: 0.5rem;
+	border: 1px solid var(--slate7);
+	background-color: var(--slate1);
+	padding: 0.5rem 0.75rem;
+	display: block;
+}
+
+form.multiFieldForm {
+	display: flex;
+	flex-direction: column;
+	padding: 1rem;
+	gap: 1rem;
+	width: 100%;
+
+	.formField {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+}
+
+.primaryButton,
+.secondaryButton {
+	border: 1px solid var(--blue7);
+	background-color: var(--blue10);
+	color: hsl(206, 30%, 98.8%);
+	font-size: 0.75rem;
+	border-radius: 0.375rem;
+	padding: 0.5rem 0.75rem;
+}
+.secondaryButton {
+	color: var(--slate1);
+	background-color: var(--slate10);
+	border-color: var(--slate9);
+}
