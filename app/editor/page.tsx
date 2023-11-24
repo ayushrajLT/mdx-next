@@ -30,7 +30,7 @@ import {
 } from "@mdxeditor/editor";
 import { useState } from "react";
 import MDXComponent from "@/components/MDXComponent";
-import "./editor.css";
+import "@/styles/editor.css";
 
 const jsxComponentDescriptors = [
 	{

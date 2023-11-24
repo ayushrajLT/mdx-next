@@ -5,7 +5,7 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import { ButtonWithTooltip } from "@mdxeditor/editor";
 import Spinner from "./Spinner";
 import { useForm } from "react-hook-form";
-import styles from "../styles/ui.module.css";
+import styles from "@/styles/ui.module.css";
 type Form = {
 	url?: string;
 	text: string;
