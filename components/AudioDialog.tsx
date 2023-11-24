@@ -23,7 +23,6 @@ const AudioDialog = ({
 		formState: { errors },
 	} = useForm<Form>();
 
-	console.log("hello audio");
 	const [open, setOpen] = useState(false);
 	const [loading, setLoading] = useState(false);
 
