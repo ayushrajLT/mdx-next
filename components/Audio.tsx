@@ -68,7 +68,6 @@ const Audio = ({ src, text }: Props) => {
 			</audio>
 			<div
 				style={{
-					width: "100%",
 					padding: 16,
 					borderRadius: "0.5em",
 					border: "1px solid #E2E8F0",
