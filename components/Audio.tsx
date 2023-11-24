@@ -87,6 +87,7 @@ const Audio = ({ src, text }: Props) => {
 						width: 32,
 						background: "transparent",
 						border: "none",
+						cursor: "pointer",
 					}}
 				>
 					<svg
@@ -113,7 +114,7 @@ const Audio = ({ src, text }: Props) => {
 				dangerouslySetInnerHTML={{
 					__html: `
 						const audio = document.getElementById("${id}");
-						const playPauseBtn = document.getElementById(${playPauseBtnId});
+						const playPauseBtn = document.getElementById("${playPauseBtnId}");
 				
 						const playIcon = <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<circle cx="12" cy="12.251" r="12" fill="#1E293B"/>
