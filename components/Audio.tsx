@@ -9,7 +9,6 @@ const Audio = ({ src, text }: Props) => {
 	const id = useId();
 	const playPauseBtnId = "playPauseBtnContainer" + id;
 
-	console.log({ id, playPauseBtnId });
 	const logic = () => {
 		const audio = document.getElementById(id) as HTMLAudioElement;
 		const playPauseBtn = document.getElementById(playPauseBtnId);
