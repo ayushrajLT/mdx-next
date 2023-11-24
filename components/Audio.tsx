@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId } from "react";
 
 type Props = {
 	src: string;
